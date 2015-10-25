@@ -10,6 +10,23 @@ for i in a:
         total += i
        
 print "SUM", total
+------------------------------------------------------
+The prime factors of 13195 are 5, 7, 13 and 29.
+What is the largest prime factor of the number 600851475143 ?
+
+a = []
+b=600851475143  
+z=2
+for i in range(1,10000):
+    
+    if b % z == 0:
+        print z
+        a.append(z)
+        b = b / z
+    else:
+        z += 1
+print a 
+------------------------------------------------------
 
 
 
