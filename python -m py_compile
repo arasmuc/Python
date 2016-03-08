@@ -1,0 +1,3 @@
+if you use the py_compile module you will already prevent most nosy people from sniffing your code;
+
+python -m py_compile mycode.py
