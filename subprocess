@@ -1,3 +1,42 @@
+
+#!/usr/bin/env python
+import subprocess
+import sys
+
+cmd='srvctl status service -d revppb -s revpptsrv'
+cmda='RPT_IndexFragmentation -a rev -p ppa -e arkadiusz.borucki@xxx.com'
+cmdb='RPT_IndexFragmentation -a rev -p ppb -e arkadiusz.borucki@xxx.com'
+
+
+p=subprocess.Popen([cmd],shell=True,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+out, err = p.communicate()
+print out, err
+
+if "is running" in out:
+
+    print "service running on PPB"
+    logfile = open('ppb_index_logfile', 'w')
+    b = subprocess.Popen([cmdb], stdout=subprocess.PIPE,stderr=subprocess.STDOUT,shell=True)
+
+    for line in b.stdout.readlines():
+        print line
+        if "alter index" in line and "$_" not in line:
+           logfile.write(line)
+    b = b.wait()
+
+else:
+    print "service running on PPA"
+    logfile = open('ppa_index_logfile', 'w')
+    a = subprocess.Popen([cmda], stdout=subprocess.PIPE,stderr=subprocess.STDOUT,shell=True)
+
+    for line in a.stdout.readlines():
+         print line,
+         if "alter index" in line and "$_" not in line:
+            logfile.write(line)
+    a = a.wait()
+    
+    ----------------------------------------------------------------------------------------
+
 #!/usr/bin/env python
 import subprocess
 
@@ -13,5 +52,3 @@ if "is running" in out:
 else:
     print "service running on PPA"
 
-
------------------------------------------------------------------------------------------------------------------------------
